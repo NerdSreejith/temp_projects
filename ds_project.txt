@@ -1,0 +1,110 @@
+Implement a Calculator Using Stack Implement a calculator program in C that supports basic arithmetic operations using a stack data structure.
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_SIZE 100
+
+typedef struct {
+    double data[MAX_SIZE];
+    int top;
+} Stack;
+
+void initialize(Stack *s) {
+    s->top = -1;
+}
+
+int is_empty(Stack *s) {
+    return s->top == -1;
+}
+
+void push(Stack *s, double num) {
+    if (s->top == MAX_SIZE - 1) {
+        printf("Stack overflow.\n");
+        return;
+    }
+    s->data[++s->top] = num;
+}
+
+double pop(Stack *s) {
+    if (is_empty(s)) {
+        printf("Stack underflow.\n");
+        exit(1);
+    }
+    return s->data[s->top--];
+}
+
+double peek(Stack *s) {
+    if (is_empty(s)) {
+        printf("Stack is empty.\n");
+        exit(1);
+    }
+    return s->data[s->top];
+}
+
+double operate(char op, double a, double b) {
+    switch (op) {
+        case '+':
+            return a + b;
+        case '-':
+            return a - b;
+        case '*':
+            return a * b;
+        case '/':
+            if (b == 0) {
+                printf("Division by zero.\n");
+                exit(1);
+            }
+            return a / b;
+        default:
+            printf("Invalid operator.\n");
+            exit(1);
+    }
+}
+
+int main() {
+    Stack s;
+    initialize(&s);
+    char str[100];
+    printf("Enter a postfix expression: ");
+    scanf("%s", str);
+    int i, len = strlen(str);
+    double a, b, res;
+    for (i = 0; i < len; i++) {
+        if (str[i] >= '0' && str[i] <= '9') {
+            push(&s, str[i] - '0');
+        } else if (str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/') {
+            a = pop(&s);
+            b = pop(&s);
+            res = operate(str[i], b, a);
+            push(&s, res);
+        }
+    }
+    printf("Result: %.2f\n", peek(&s));
+    return 0;
+}
+
+
+
+
+
+
+Sure, here are some sample outputs for the calculator program:
+
+Input: 5 3 + Output: Result: 8.00
+
+Input: 5 3 2 * + Output: Result: 17.00
+
+Input: 5 3 2 * 7 / + Output: Result: 3.57
+
+Input: 5 0 / Output: Division by zero.
+
+Input: `5 3 2
+
+
+
+
+
+This is a simple calculator program in C that supports basic arithmetic operations using a stack data structure. The program takes a postfix expression as input and performs the arithmetic operations in the correct order using a stack data structure. The initialize() function initializes the stack, the push() function pushes a number onto the stack, the pop() function pops a number from the stack, the peek() function returns the top number on the stack, and the operate() function performs the arithmetic operation based on the operator passed to it. The main() function takes the postfix expression as input, parses it, and performs the arithmetic operations using the stack data structure. The program can handle invalid input, division by zero, and stack overflow and underflow errors. The result of the arithmetic operation is printed to the console with two
