@@ -1,0 +1,70 @@
+
+In a C-based file manager using a linked list, here are three features you can implement and how they work:
+
+Searching for a file by name:
+To implement this feature, you can create a function that searches for a specific file node based on its name. This can be done using a linear search or a more efficient binary search if the linked list is sorted. The function should take the head of the linked list and the file name as input parameters and return a pointer to the file node if found, or NULL otherwise.
+
+c
+Copy code
+File* search_file(File* head, const char* name);
+Here's a basic implementation using linear search:
+
+c
+Copy code
+File* search_file(File* head, const char* name) {
+    File* temp = head;
+    while (temp != NULL) {
+        if (strcmp(temp->name, name) == 0) {
+            return temp;
+        }
+        temp = temp->next;
+    }
+    return NULL;
+}
+Sorting files by size:
+To sort files by size, you can create a function that sorts the linked list of files in ascending or descending order based on the file size. You can use a simple bubble sort, insertion sort, or merge sort algorithm for this purpose.
+
+Here's an example of sorting the linked list in ascending order using bubble sort:
+
+c
+Copy code
+void sort_files_by_size(File** head) {
+    File* current = *head;
+    File* next = NULL;
+    File* temp = NULL;
+
+    while (current != NULL) {
+        next = current->next;
+        while (next != NULL) {
+            if (current->size > next->size) {
+                temp = current;
+                current->size = next->size;
+                next->size = temp->size;
+                strcpy(temp->name, next->name);
+                strcpy(next->name, temp->name);
+            }
+            next = next->next;
+        }
+        current = current->next;
+    }
+}
+Deleting files from the disk:
+To delete files from the disk, you can create a function that removes a file from the linked list and deletes the corresponding file from the disk using system-specific functions like remove() in C.
+
+Here's an example of deleting files from the disk based on the linked list:
+
+c
+Copy code
+void delete_files_from_disk(File* head, const char* directory) {
+    File* current = head;
+    File* next = NULL;
+
+    while (current != NULL) {
+        next = current->next;
+        remove(strcat(strcpy(malloc(strlen(directory) + strlen(current->name) + 1), directory), current->name));
+        delete_file(&head, current->name);
+        free(current);
+        current = next;
+    }
+}
+Remember to include the necessary headers and consider error handling when implementing these features. Also, note that the code above is for demonstration purposes and may need adjustments depending on your specific implementation.
